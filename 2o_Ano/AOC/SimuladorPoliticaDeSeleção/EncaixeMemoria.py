@@ -5,6 +5,14 @@ class EncaixeMemoria():
         self.alocacao = [-1] * len(tamanhoProcessos) # Cria uma lista com o mesmo número de elementos que tamanhoProcessos, e inicia cada elemento com -1 para indicar que nenhum processo foi alocado 
         pass
 
+    def mostrarResultados(self):
+        print("Processo No. \tTamanho Processo \tBloco Alocado")
+        for i in range(len(self.tamanhoProcessos)):
+            if self.alocacao[i] != -1:
+                print(f"{i + 1} \t\t{self.tamanhoProcessos[i]} \t\t\t{self.alocacao[i] + 1}")
+            else:
+                print(f"{i + 1} \t\t{self.tamanhoProcessos[i]} \t\t\tNão Alocado")
+
     def Firstfit(self):
         for i in range(len(self.tamanhoProcessos)):
             for j in range (len(self.blocoMemorias)):
@@ -13,11 +21,17 @@ class EncaixeMemoria():
                     self.blocoMemorias[j] -= self.tamanhoProcessos[i] # Reduz o tamanho disponível do bloco de memória
                     break
 
-    def mostrarResultados(self):
-        print("Processo No. \tTamanho Processo \tBloco Alocado")
+    def Bestfit(self):
         for i in range(len(self.tamanhoProcessos)):
-            if self.alocacao[i] != -1:
-                print(f"{i + 1} \t\t{self.tamanhoProcessos[i]} \t\t\t{self.alocacao[i] + 1}")
-            else:
-                print(f"{i + 1} \t\t{self.tamanhoProcessos[i]} \t\t\tNão Alocado")
+            melhorBloco = -1
+            for j in range(len(self.blocoMemorias)):
+                if self.blocoMemorias[j] >= self.tamanhoProcessos[i]: 
+                    if melhorBloco == -1:
+                        melhorBloco = j
+                    elif self.blocoMemorias[melhorBloco] > self.blocoMemorias[j]:
+                        melhorBloco = j
+                    break
+            if melhorBloco != -1:
+                self.alocacao[i] = melhorBloco # Processo atual
+                self.blocoMemorias[melhorBloco] -= self.tamanhoProcessos[i]
 
