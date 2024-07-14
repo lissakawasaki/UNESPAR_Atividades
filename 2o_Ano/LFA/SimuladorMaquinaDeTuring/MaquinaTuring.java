@@ -142,10 +142,6 @@ public class MaquinaTuring {
         String[] simbolosFitaArray = sc.nextLine().split("\\s+");
         List<String> simbolosFita = Arrays.asList(simbolosFitaArray);
 
-        System.out.print("Informe o alfabeto auxiliar da fita (separados por espaço): ");
-        String[] alfabetoAuxiliarArray = sc.nextLine().split("\\s+");
-        List<String> alfabetoAuxiliar = Arrays.asList(alfabetoAuxiliarArray);
-
         System.out.print("Informe o marcador de início: ");
         char marcadorInicio = sc.nextLine().charAt(0);
 
