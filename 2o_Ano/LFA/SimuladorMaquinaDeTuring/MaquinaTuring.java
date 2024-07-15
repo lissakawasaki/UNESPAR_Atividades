@@ -2,12 +2,12 @@ import java.util.*;
 
 public class MaquinaTuring {
 
-    class Transicao {
-        String estadoAtual;
-        String simboloAtual;
-        String proximoEstado;
-        String simboloParaEscrever;
-        String direcao;
+    static class Transicao {
+        private final String estadoAtual;
+        private final String simboloAtual;
+        private final String proximoEstado;
+        private final String simboloParaEscrever;
+        private final String direcao;
 
         public Transicao(String estadoAtual, String simboloAtual, String proximoEstado, String simboloParaEscrever, String direcao) {
             this.estadoAtual = estadoAtual;
@@ -17,7 +17,7 @@ public class MaquinaTuring {
             this.direcao = direcao;
         }
 
-        String getEstadoAtual() {
+        public String getEstadoAtual() {
             return estadoAtual;
         }
 
@@ -38,10 +38,10 @@ public class MaquinaTuring {
         }
     }
 
-    void executarMT(List<String> estados, List<String> simbolos, List<String> simbolosFita, List<Transicao> funcaoTransicao, String estadoInicial, List<String> estadosFinais, String simboloBranco, char marcadorInicio, Scanner scanner) {
+    private void executarMT(List<String> estados, List<String> simbolos, List<String> simbolosFita, List<Transicao> funcaoTransicao, String estadoInicial, List<String> estadosFinais, char marcadorInicio, Scanner scanner) {
         while (true) {
             System.out.print("Insira a palavra a ser verificada: ");
-            String entradaUsuario = scanner.nextLine();
+            String entradaUsuario = scanner.nextLine().trim().replaceAll("\\s", ""); // Remove espaços em branco
             char[] entradaUsuarioArray = entradaUsuario.toCharArray();
 
             boolean palavraValida = true;
@@ -62,15 +62,19 @@ public class MaquinaTuring {
             for (char c : entradaUsuarioArray) {
                 fita.add(String.valueOf(c));
             }
-            for (int i = 0; i < 100; i++) {
-                fita.add(simboloBranco);
-            }
 
-            int posicaoCabeca = 1;  // Começa na posição após o marcador de início
+            int posicaoCabeca = 1;
             String estadoAtual = estadoInicial;
             boolean palavraAceita = false;
 
             while (true) {
+                if (posicaoCabeca >= fita.size()) {
+                    fita.add(" ");
+                } else if (posicaoCabeca < 0) {
+                    fita.add(0, " ");
+                    posicaoCabeca = 0;
+                }
+
                 String simboloAtual = fita.get(posicaoCabeca);
                 Transicao transicao = encontrarTransicao(funcaoTransicao, estadoAtual, simboloAtual);
 
@@ -98,9 +102,8 @@ public class MaquinaTuring {
                     break;
                 }
 
-                // Adiciona um limite para evitar looping infinito, por exemplo, 1000 passos
                 if (Math.abs(posicaoCabeca) > 1000) {
-                    System.out.println("Palavra não aceita! Excesso de passos.");
+                    System.out.println("Palavra não aceita! Ultrapassou o limite definido.");
                     break;
                 }
             }
@@ -121,7 +124,7 @@ public class MaquinaTuring {
     }
 
     public static void main(String[] args) {
-        Scanner sc  = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
         System.out.print("Informe o estado inicial: ");
         String estadoInicial = sc.nextLine().trim();
@@ -145,9 +148,6 @@ public class MaquinaTuring {
         System.out.print("Informe o marcador de início: ");
         char marcadorInicio = sc.nextLine().charAt(0);
 
-        System.out.print("Informe o símbolo branco: ");
-        String simboloBranco = sc.nextLine().trim();
-
         List<Transicao> funcaoTransicao = new ArrayList<>();
 
         System.out.println("Preencha as transições:");
@@ -161,13 +161,13 @@ public class MaquinaTuring {
                     String proximoEstado = transicaoAtual[0];
                     String simboloParaEscrever = transicaoAtual[1];
                     String direcao = transicaoAtual[2];
-                    funcaoTransicao.add(new MaquinaTuring().new Transicao(estado, simbolo, proximoEstado, simboloParaEscrever, direcao));
+                    funcaoTransicao.add(new Transicao(estado, simbolo, proximoEstado, simboloParaEscrever, direcao));
                 }
             }
         }
 
         MaquinaTuring mt = new MaquinaTuring();
-        mt.executarMT(estados, simbolos, simbolosFita, funcaoTransicao, estadoInicial, estadosFinais, simboloBranco, marcadorInicio, sc);
+        mt.executarMT(estados, simbolos, simbolosFita, funcaoTransicao, estadoInicial, estadosFinais, marcadorInicio, sc);
         sc.close();
     }
 }
