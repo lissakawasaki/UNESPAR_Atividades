@@ -1,11 +1,11 @@
 public class Fita {
-    // Variável para armazenar a fita e a posição da cabeça de leitura/escrita
+    // Variável de instância para armazenar a fita e a posição da cabeça de leitura/escrita
     private char[] fita;
     private int posicaoCabeca;
 
     // Construtor para inicializar a fita com a palavra de entrada e espaços em branco adicionais
     public Fita(String entrada) {
-        this.fita = (entrada + "__________________").toCharArray(); // Adiciona espaços em branco para evitar sair dos limites
+        this.fita = (entrada + "<<<<<<<<<<<<<<<<<<<").toCharArray(); // Adiciona espaços em branco para evitar sair dos limites
         this.posicaoCabeca = 0; // Inicializa a posição da cabeça no início da fita
     }
 
@@ -32,4 +32,11 @@ public class Fita {
     public boolean posicaoValida() {
         return posicaoCabeca >= 0 && posicaoCabeca < fita.length;
     }
+    // Método para retornar a fita em formato de string, destacando a posição da cabeça
+    public String toString() {
+        return new String(fita, 0, posicaoCabeca) + "[" + fita[posicaoCabeca] + "]" + new String(fita, posicaoCabeca + 1, fita.length - posicaoCabeca - 1);
+    }
+    
+
+    
 }
