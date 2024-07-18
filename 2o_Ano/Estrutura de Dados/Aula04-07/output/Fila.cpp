@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// ImplementaÃ§Ã£o de fila com prioridade
+// Implementação de fila com prioridade
 
 typedef struct no {
     int valor;
@@ -36,7 +36,7 @@ void inserirFilaPrioridade(Fila *fila, int num, int prioridade){
         }
         fila->tamanho++;
     } else {
-        printf("\nErro ao alocar memÃ³ria.\n");
+        printf("\nErro ao alocar memória.\n");
     }
 }
 
@@ -88,7 +88,7 @@ int main(){
             } else if(prioridade == 2){
                 inserirFilaPrioridade(&filaPrioridade2, valor, prioridade);
             } else {
-                printf("Prioridade invÃ¡lida.\n");
+                printf("Prioridade inválida.\n");
             }
             break;
         case 2:
@@ -107,7 +107,7 @@ int main(){
                     free(r2);
                 } 
             } else {
-                printf("Prioridade invÃ¡lida.\n");
+                printf("Prioridade inválida.\n");
             }
             break;
         case 3:
@@ -118,12 +118,12 @@ int main(){
             } else if (imprimirFilaPrioridade == 2){
                 imprimirFila(&filaPrioridade2);
             } else {
-                printf("Prioridade invÃ¡lida.\n");
+                printf("Prioridade inválida.\n");
             }
             break;
         default:
             if(entradaUsuario != 0){
-                printf("OpÃ§Ã£o invÃ¡lida.\n");
+                printf("Opção inválida.\n");
             }
             break;
         }
@@ -131,3 +131,4 @@ int main(){
 
     return 0;
 }
+
