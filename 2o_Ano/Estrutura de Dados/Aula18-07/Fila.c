@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Implementação de fila 
 // Implementação de fila com prioridade
 
 typedef struct no {
