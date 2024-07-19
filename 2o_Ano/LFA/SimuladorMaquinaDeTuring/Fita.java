@@ -5,7 +5,7 @@ public class Fita {
 
     // Construtor para inicializar a fita com a palavra de entrada e espaços em branco adicionais
     public Fita(String entrada) {
-        this.fita = (entrada + "<<<<<<<<<<<<<<<<<<<").toCharArray(); // Adiciona espaços em branco para evitar sair dos limites
+        this.fita = (entrada).toCharArray(); // Adiciona espaços em branco para evitar sair dos limites
         this.posicaoCabeca = 0; // Inicializa a posição da cabeça no início da fita
     }
 
@@ -23,8 +23,15 @@ public class Fita {
     public void moverCabeca(char direcao) {
         if (direcao == 'R') {
             posicaoCabeca++;
+            if (posicaoCabeca >= fita.length) {
+                expandirFita();
+            }
         } else if (direcao == 'L') {
-            posicaoCabeca--;
+            if (posicaoCabeca > 0) {
+                posicaoCabeca--;
+            } else {
+                System.out.println("Movimento para a esquerda fora dos limites da fita."); // ArrayIndexOutOfBoundsException
+            }
         }
     }
 
@@ -32,11 +39,20 @@ public class Fita {
     public boolean posicaoValida() {
         return posicaoCabeca >= 0 && posicaoCabeca < fita.length;
     }
+
+    // Método para expandir a fita se necessário
+    private void expandirFita() {
+        char[] novaFita = new char[fita.length + 10]; // Expande a fita em 10 posições
+        System.arraycopy(fita, 0, novaFita, 0, fita.length);
+        for (int i = fita.length; i < novaFita.length; i++) {
+            novaFita[i] = '_'; // Preenche com símbolos em branco
+        }
+
+        fita = novaFita;
+    }
+
     // Método para retornar a fita em formato de string, destacando a posição da cabeça
     public String toString() {
         return new String(fita, 0, posicaoCabeca) + "[" + fita[posicaoCabeca] + "]" + new String(fita, posicaoCabeca + 1, fita.length - posicaoCabeca - 1);
     }
-    
-
-    
 }
