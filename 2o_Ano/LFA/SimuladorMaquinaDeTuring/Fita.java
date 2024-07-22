@@ -2,11 +2,13 @@ public class Fita {
     // Variável de instância para armazenar a fita e a posição da cabeça de leitura/escrita
     private char[] fita;
     private int posicaoCabeca;
+    private char marcadorInicio;
 
     // Construtor para inicializar a fita com a palavra de entrada e espaços em branco adicionais
-    public Fita(String entrada) {
-        this.fita = (entrada).toCharArray(); // Adiciona espaços em branco para evitar sair dos limites
-        this.posicaoCabeca = 0; // Inicializa a posição da cabeça no início da fita
+    public Fita(String entrada, char marcadorInicio) {
+        this.marcadorInicio = marcadorInicio;
+        this.fita = (marcadorInicio + entrada).toCharArray(); 
+        this.posicaoCabeca =  1; // Inicializa a posição da cabeça logo após o marcador de início
     }
 
     // Método para ler o símbolo na posição atual da cabeça
@@ -47,7 +49,7 @@ public class Fita {
         for (int i = fita.length; i < novaFita.length; i++) {
             novaFita[i] = '_'; // Preenche com símbolos em branco
         }
-
+        novaFita[novaFita.length - 1] = marcadorInicio; // Adiciona o marcador de início no final
         fita = novaFita;
     }
 

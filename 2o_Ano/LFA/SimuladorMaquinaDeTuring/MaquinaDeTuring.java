@@ -28,7 +28,7 @@ public class MaquinaDeTuring {
         while (true) {
             System.out.print("Insira a palavra a ser verificada: ");
             String entradaUsuario = scanner.nextLine(); // Lê a entrada do usuário
-            Fita fita = new Fita(entradaUsuario); // Inicializa a fita com a palavra de entrada
+            Fita fita = new Fita(entradaUsuario, marcadorInicio); // Inicializa a fita com a palavra de entrada
             String estadoAtual = estadoInicial; // Define o estado inicial
             boolean palavraAceita = true; // Flag para verificar se a palavra foi aceita
 
@@ -68,7 +68,7 @@ public class MaquinaDeTuring {
                     System.out.printf("%c%s%c\n", marcadorInicio, entradaUsuario, marcadorInicio);
                     
                     System.out.println("Fita final: ");
-                    System.out.printf("%c%s\n", marcadorInicio, fita.toString());
+                    System.out.printf("%c%s\n", fita.toString());
 
     
                     break;
