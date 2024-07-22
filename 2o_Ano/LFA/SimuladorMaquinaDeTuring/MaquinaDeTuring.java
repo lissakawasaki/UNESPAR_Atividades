@@ -10,9 +10,10 @@ public class MaquinaDeTuring {
     private ArrayList<String> estadosFinais;
     private Transicao[][] funcaoTransicao;
     private Character marcadorInicio;
+    private Character simboloBranco;
 
     // Construtor para inicializar a máquina de Turing com os valores fornecidos
-    public MaquinaDeTuring(ArrayList<String> estados, ArrayList<Character> simbolos, ArrayList<Character> simbolosFita, String estadoInicial, ArrayList<String> estadosFinais, Transicao[][] funcaoTransicao, Character marcadorInicio) {
+    public MaquinaDeTuring(ArrayList<String> estados, ArrayList<Character> simbolos, ArrayList<Character> simbolosFita, String estadoInicial, ArrayList<String> estadosFinais, Transicao[][] funcaoTransicao, Character marcadorInicio, Character simboloBranco) {
         this.estados = estados;
         this.simbolos = simbolos;
         this.simbolosFita = simbolosFita;
@@ -20,6 +21,7 @@ public class MaquinaDeTuring {
         this.estadosFinais = estadosFinais;
         this.funcaoTransicao = funcaoTransicao;
         this.marcadorInicio = marcadorInicio;
+        this.simboloBranco = simboloBranco;
     }
     // Método para executar a máquina de Turing
     public void executarMT() {
@@ -28,7 +30,7 @@ public class MaquinaDeTuring {
         while (true) {
             System.out.print("Insira a palavra a ser verificada: ");
             String entradaUsuario = scanner.nextLine(); // Lê a entrada do usuário
-            Fita fita = new Fita(entradaUsuario, marcadorInicio); // Inicializa a fita com a palavra de entrada
+            Fita fita = new Fita(entradaUsuario, marcadorInicio, simboloBranco); // Inicializa a fita com a palavra de entrada
             String estadoAtual = estadoInicial; // Define o estado inicial
             boolean palavraAceita = true; // Flag para verificar se a palavra foi aceita
 
@@ -68,8 +70,7 @@ public class MaquinaDeTuring {
                     System.out.printf("%c%s%c\n", marcadorInicio, entradaUsuario, marcadorInicio);
                     
                     System.out.println("Fita final: ");
-                    System.out.printf("%c%s\n", fita.toString());
-
+                    System.out.printf("%s\n", fita.toString());
     
                     break;
                 }
@@ -120,16 +121,17 @@ public class MaquinaDeTuring {
         }
 
         // Leitura dos símbolos da fita
-        System.out.print("Informe os símbolos da fita, incluindo o simbolo branco. (separados por espaço): ");
+        System.out.print("Informe os símbolos da fita (separados por espaço): "); // Incluir simbolo branco e marcador de inicio
         ArrayList<Character> simbolosFita = new ArrayList<>();
         for (String simbolo : scanner.nextLine().split(" ")) {
             simbolosFita.add(simbolo.charAt(0));
         }
 
+        System.out.print("Informe o simbolo branco: ");
+        char simboloBranco = scanner.nextLine().charAt(0);
+
         System.out.print("Informe o marcador de início: ");
         char marcadorInicio = scanner.nextLine().charAt(0);
-
-        char simboloBranco = simbolosFita.get(simbolosFita.size() - 1);
 
         // Inicialização da função de transição
         Transicao[][] funcaoTransicao = new Transicao[estados.size()][simbolosFita.size()];
@@ -153,7 +155,7 @@ public class MaquinaDeTuring {
         }
 
         // Criação da máquina de Turing e execução
-        MaquinaDeTuring mt = new MaquinaDeTuring(estados, simbolos, simbolosFita, estadoInicial, estadosFinais, funcaoTransicao, marcadorInicio);
+        MaquinaDeTuring mt = new MaquinaDeTuring(estados, simbolos, simbolosFita, estadoInicial, estadosFinais, funcaoTransicao, marcadorInicio, simboloBranco);
         mt.executarMT();
     }
 }

@@ -3,9 +3,11 @@ public class Fita {
     private char[] fita;
     private int posicaoCabeca;
     private char marcadorInicio;
+    private char simboloBranco;
 
     // Construtor para inicializar a fita com a palavra de entrada e espaços em branco adicionais
-    public Fita(String entrada, char marcadorInicio) {
+    public Fita(String entrada, char marcadorInicio, char simboloBranco) {
+        this.simboloBranco = simboloBranco;
         this.marcadorInicio = marcadorInicio;
         this.fita = (marcadorInicio + entrada).toCharArray(); 
         this.posicaoCabeca =  1; // Inicializa a posição da cabeça logo após o marcador de início
@@ -44,10 +46,10 @@ public class Fita {
 
     // Método para expandir a fita se necessário
     private void expandirFita() {
-        char[] novaFita = new char[fita.length + 10]; // Expande a fita em 10 posições
+        char[] novaFita = new char[fita.length + 2]; // Expande a fita 
         System.arraycopy(fita, 0, novaFita, 0, fita.length);
         for (int i = fita.length; i < novaFita.length; i++) {
-            novaFita[i] = '_'; // Preenche com símbolos em branco
+            novaFita[i] = (simboloBranco); // Preenche com símbolos em branco
         }
         novaFita[novaFita.length - 1] = marcadorInicio; // Adiciona o marcador de início no final
         fita = novaFita;
