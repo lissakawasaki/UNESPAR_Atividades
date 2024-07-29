@@ -58,8 +58,8 @@ class Processador:
             instrucao = self.instrucoes[self.registradores["PC"] - 1]
             opcode = f"{instrucao[0]:06b}"
             operandos = instrucao[1]
-            op1 = operandos[0] if len(operandos) > 0 else ""
-            op2 = operandos[1] if len(operandos) > 1 else ""
+            primeiroOperando = operandos[0] if len(operandos) > 0 else ""
+            segundoOperando = operandos[1] if len(operandos) > 1 else ""
 
             print(Fore.CYAN + "="*82 + Style.RESET_ALL)
             print(Fore.YELLOW + "<ENDEREÇO DA INSTRUÇÃO ATUAL:>" + Style.RESET_ALL)
@@ -67,38 +67,38 @@ class Processador:
             print("\n" + Fore.YELLOW + "<CÓDIGO DA INSTRUÇÃO:>" + Style.RESET_ALL)
             print(f"IR <OPCODE>: {Fore.GREEN}{opcode}{Style.RESET_ALL}")
             print("\n" + Fore.YELLOW + "<OPERANDOS:>" + Style.RESET_ALL)
-            print(f"IR <OP1>: {Fore.GREEN}{op1}{Style.RESET_ALL}")
-            print(f"IR <OP2>: {Fore.GREEN}{op2}{Style.RESET_ALL}")
+            print(f"IR <primeiroOperando>: {Fore.GREEN}{primeiroOperando}{Style.RESET_ALL}")
+            print(f"IR <segundoOperando>: {Fore.GREEN}{segundoOperando}{Style.RESET_ALL}")
             print("\n" + Fore.YELLOW + "<DECODIFICANDO A INSTRUÇÃO:>" + Style.RESET_ALL)
 
             # Exibe a execução detalhada baseada no opcode
             if opcode == "000001":
                 print(Fore.CYAN + "MBR <- #POS" + Style.RESET_ALL)
-                print(f"{Fore.GREEN}{self.registradores['MBR']} <- {op1}{Style.RESET_ALL}")
+                print(f"{Fore.GREEN}{self.registradores['MBR']} <- {primeiroOperando}{Style.RESET_ALL}")
             elif opcode == "000010":
                 print(Fore.CYAN + "#POS <- #DADO" + Style.RESET_ALL)
-                print(f"{Fore.GREEN}{op1} <- {op2}{Style.RESET_ALL}")
+                print(f"{Fore.GREEN}{primeiroOperando} <- {segundoOperando}{Style.RESET_ALL}")
             elif opcode == "000011":
                 print(Fore.CYAN + "MBR <- MBR + #POS" + Style.RESET_ALL)
-                print(f"{Fore.GREEN}{self.registradores['MBR']} <- {self.registradores['MBR']} + {op1}{Style.RESET_ALL}")
+                print(f"{Fore.GREEN}{self.registradores['MBR']} <- {self.registradores['MBR']} + {primeiroOperando}{Style.RESET_ALL}")
             elif opcode == "000100":
                 print(Fore.CYAN + "MBR <- MBR - #POS" + Style.RESET_ALL)
-                print(f"{Fore.GREEN}{self.registradores['MBR']} <- {self.registradores['MBR']} - {op1}{Style.RESET_ALL}")
+                print(f"{Fore.GREEN}{self.registradores['MBR']} <- {self.registradores['MBR']} - {primeiroOperando}{Style.RESET_ALL}")
             elif opcode == "000101":
                 print(Fore.CYAN + "MBR <- MBR * #POS" + Style.RESET_ALL)
-                print(f"{Fore.GREEN}{self.registradores['MBR']} <- {self.registradores['MBR']} * {op1}{Style.RESET_ALL}")
+                print(f"{Fore.GREEN}{self.registradores['MBR']} <- {self.registradores['MBR']} * {primeiroOperando}{Style.RESET_ALL}")
             elif opcode == "000110":
                 print(Fore.CYAN + "MBR <- MBR / #POS" + Style.RESET_ALL)
-                print(f"{Fore.GREEN}{self.registradores['MBR']} <- {self.registradores['MBR']} / {op1}{Style.RESET_ALL}")
+                print(f"{Fore.GREEN}{self.registradores['MBR']} <- {self.registradores['MBR']} / {primeiroOperando}{Style.RESET_ALL}")
             elif opcode == "000111":
                 print(Fore.CYAN + "JUMP to #LIN" + Style.RESET_ALL)
-                print(f"{Fore.GREEN}JUMP to {op1}{Style.RESET_ALL}")
+                print(f"{Fore.GREEN}JUMP to {primeiroOperando}{Style.RESET_ALL}")
             elif opcode == "001000":
                 print(Fore.CYAN + "JUMP IF Z to #LIN" + Style.RESET_ALL)
-                print(f"{Fore.GREEN}JUMP IF Z to {op1}{Style.RESET_ALL}")
+                print(f"{Fore.GREEN}JUMP IF Z to {primeiroOperando}{Style.RESET_ALL}")
             elif opcode == "001001":
                 print(Fore.CYAN + "JUMP IF N to #LIN" + Style.RESET_ALL)
-                print(f"{Fore.GREEN}JUMP IF N to {op1}{Style.RESET_ALL}")
+                print(f"{Fore.GREEN}JUMP IF N to {primeiroOperando}{Style.RESET_ALL}")
             elif opcode == "001010":
                 print(Fore.CYAN + "MBR <- sqrt(MBR)" + Style.RESET_ALL)
                 print(f"{Fore.GREEN}MBR <- sqrt({self.registradores['MBR']}){Style.RESET_ALL}")
@@ -107,7 +107,7 @@ class Processador:
                 print(f"{Fore.GREEN}MBR <- -{self.registradores['MBR']}{Style.RESET_ALL}")
             elif opcode == "001111":
                 print(Fore.CYAN + "#POS <- MBR" + Style.RESET_ALL)
-                print(f"{Fore.GREEN}{op1} <- {self.registradores['MBR']}{Style.RESET_ALL}")
+                print(f"{Fore.GREEN}{primeiroOperando} <- {self.registradores['MBR']}{Style.RESET_ALL}")
             elif opcode == "001100":
                 print(Fore.CYAN + "NOP" + Style.RESET_ALL)
                 print(Fore.GREEN + "OPERAÇÃO FINALIZADA!" + Style.RESET_ALL)
@@ -116,36 +116,36 @@ class Processador:
                 print(Fore.RED + "OPCODE não reconhecido" + Style.RESET_ALL)
 
             print("\n" + Fore.YELLOW + "<CÁLCULO DO ENDEREÇO DO OPERANDO:>" + Style.RESET_ALL)
-            print(f"Endereço: {Fore.GREEN}{op1}{Style.RESET_ALL}")
+            print(f"Endereço: {Fore.GREEN}{primeiroOperando}{Style.RESET_ALL}")
             print("\n" + Fore.YELLOW + "<BUSCANDO O OPERANDO NA POSIÇÃO:>" + Style.RESET_ALL)
-            print(f"MAR: {Fore.GREEN}{op1}{Style.RESET_ALL}")
+            print(f"MAR: {Fore.GREEN}{primeiroOperando}{Style.RESET_ALL}")
 
-            if op2:
+            if segundoOperando:
                 print("\n" + Fore.YELLOW + "<CÁLCULO DO ENDEREÇO DO SEGUNDO OPERANDO:>" + Style.RESET_ALL)
-                print(f"Endereço: {Fore.GREEN}{op2}{Style.RESET_ALL}")
+                print(f"Endereço: {Fore.GREEN}{segundoOperando}{Style.RESET_ALL}")
                 print("\n" + Fore.YELLOW + "<BUSCANDO O SEGUNDO OPERANDO NA POSIÇÃO:>" + Style.RESET_ALL)
-                print(f"MAR: {Fore.GREEN}{op2}{Style.RESET_ALL}")
+                print(f"MAR: {Fore.GREEN}{segundoOperando}{Style.RESET_ALL}")
 
             print("\n" + Fore.YELLOW + "<OPERAÇÃO DE DADOS:>" + Style.RESET_ALL)
 
             # Exibe os resultados da operação de dados baseada no opcode
             if opcode == "000001":
                 print(f"\tVALOR DO MBR: {Fore.GREEN}{self.registradores['MBR']}{Style.RESET_ALL}")
-                print(f"\tVALOR NA MEMÓRIA: {Fore.GREEN}{self.memoria[int(op1)]}{Style.RESET_ALL}")
-                print(f"\tVALOR DO MBR APÓS A OPERAÇÃO: {Fore.GREEN}{self.registradores['MBR']} + {self.memoria[int(op1)]} = {self.registradores['MBR'] + self.memoria[int(op1)]}{Style.RESET_ALL}")
+                print(f"\tVALOR NA MEMÓRIA: {Fore.GREEN}{self.memoria[int(primeiroOperando)]}{Style.RESET_ALL}")
+                print(f"\tVALOR DO MBR APÓS A OPERAÇÃO: {Fore.GREEN}{self.registradores['MBR']} + {self.memoria[int(primeiroOperando)]} = {self.registradores['MBR'] + self.memoria[int(primeiroOperando)]}{Style.RESET_ALL}")
                 print(Fore.GREEN + "O VALOR FOI ARMAZENADO!" + Style.RESET_ALL)
             elif opcode == "000010":
                 print(f"\tVALOR DO MBR: {Fore.GREEN}{self.registradores['MBR']}{Style.RESET_ALL}")
-                print(f"\tVALOR NA POSIÇÃO: {Fore.GREEN}{self.memoria[int(op1)]}{Style.RESET_ALL}")
-                print(f"\tVALOR DO MBR APÓS A OPERAÇÃO: {Fore.GREEN}{self.registradores['MBR']} + {self.memoria[int(op1)]} = {self.registradores['MBR'] + self.memoria[int(op1)]}{Style.RESET_ALL}")
+                print(f"\tVALOR NA POSIÇÃO: {Fore.GREEN}{self.memoria[int(primeiroOperando)]}{Style.RESET_ALL}")
+                print(f"\tVALOR DO MBR APÓS A OPERAÇÃO: {Fore.GREEN}{self.registradores['MBR']} + {self.memoria[int(primeiroOperando)]} = {self.registradores['MBR'] + self.memoria[int(primeiroOperando)]}{Style.RESET_ALL}")
                 print(Fore.GREEN + "O VALOR FOI ARMAZENADO!" + Style.RESET_ALL)
             elif opcode in ["000011", "000100", "000101", "000110", "000111", "001000", "001001", "001010", "001011"]:
-                print(f"\tARMAZENANDO: {Fore.GREEN}{op2}{Style.RESET_ALL}")
-                print(f"\tNA POSIÇÃO: {Fore.GREEN}{op1}{Style.RESET_ALL}")
+                print(f"\tARMAZENANDO: {Fore.GREEN}{segundoOperando}{Style.RESET_ALL}")
+                print(f"\tNA POSIÇÃO: {Fore.GREEN}{primeiroOperando}{Style.RESET_ALL}")
                 print("\n" + Fore.YELLOW + "<CALCULANDO ENDEREÇO DO OPERANDO:>" + Style.RESET_ALL)
-                print(f"\tENDEREÇO: {Fore.GREEN}{op1}{Style.RESET_ALL}")
+                print(f"\tENDEREÇO: {Fore.GREEN}{primeiroOperando}{Style.RESET_ALL}")
                 print("\n" + Fore.YELLOW + "<ARMAZENANDO O OPERANDO:>" + Style.RESET_ALL)
-                print(f"\tMAR: {Fore.GREEN}{op1}{Style.RESET_ALL}")
+                print(f"\tMAR: {Fore.GREEN}{primeiroOperando}{Style.RESET_ALL}")
                 print(Fore.GREEN + "<O VALOR FOI ARMAZENADO!>" + Style.RESET_ALL)
 
             print(Fore.CYAN + "="*82 + Style.RESET_ALL)
@@ -205,21 +205,21 @@ class ControlaCicloInstrucao:
             if instrucao == '4':
                 break
 
-            op1 = ""
-            op2 = ""
+            primeiroOperando = ""
+            segundoOperando = ""
 
             if instrucao in ["000001", "001010", "001011", "001100"]:
-                op1 = input("Digite o primeiro operando: ")
+                primeiroOperando = input("Digite o primeiro operando: ")
             else:
-                op1 = input("Digite o primeiro operando: ")
+                primeiroOperando = input("Digite o primeiro operando: ")
                 if instrucao not in ["000011", "000100", "000101", "000110", "000111", "001000", "001001", "001111"]:
-                    op2 = input("Digite o segundo operando: ")
+                    segundoOperando = input("Digite o segundo operando: ")
 
             # Verifica se os operandos são válidos e adiciona-os ao programa
             try:
-                operandos = [int(op1)] if op1 else []
-                if op2:
-                    operandos.append(int(op2))
+                operandos = [int(primeiroOperando)] if primeiroOperando else []
+                if segundoOperando:
+                    operandos.append(int(segundoOperando))
                 opcode = int(instrucao, 2)
                 self.programa.append((opcode, operandos))
             except ValueError:
