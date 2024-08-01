@@ -1,4 +1,4 @@
- import random # Biblioteca necessária para gerar números aleatórios
+import random # Biblioteca necessária para gerar números aleatórios
 import statistics # Biblioteca utilizada para calcular as operações aritméticas utilizadas no código
 import time # Biblioteca utilizada para monitorar o tempo de uso
 import psutil # Biblioteca utilizada para monitorar o uso de processador, disco e memória

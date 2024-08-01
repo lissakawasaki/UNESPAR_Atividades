@@ -43,6 +43,7 @@ class Processador:
 
     def executarInstrucao(self, instrucao):
         """Executa a instrução decodificada e atualiza as flags."""
+        self.buscarInstrucao()
         if instrucao:
             instrucao.executar(self)
             self.atualizarFlags()
@@ -93,6 +94,7 @@ class Processador:
             elif opcode == "000111":
                 print(Fore.CYAN + "JUMP to #LIN" + Style.RESET_ALL)
                 print(f"{Fore.GREEN}JUMP to {primeiroOperando}{Style.RESET_ALL}")
+                self.registradores = primeiroOperando
             elif opcode == "001000":
                 print(Fore.CYAN + "JUMP IF Z to #LIN" + Style.RESET_ALL)
                 print(f"{Fore.GREEN}JUMP IF Z to {primeiroOperando}{Style.RESET_ALL}")
@@ -240,8 +242,8 @@ class ControlaCicloInstrucao:
             self.processador.buscarInstrucao()
             instrucao = self.processador.decodificar()
             if instrucao:
-                self.processador.exibirCiclo()
                 self.processador.executarInstrucao(instrucao)
+                self.processador.exibirCiclo()
             else:
                 print(Fore.RED + "Erro ao decodificar a instrução." + Style.RESET_ALL)
                 break
