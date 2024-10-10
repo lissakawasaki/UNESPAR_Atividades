@@ -1,24 +1,23 @@
 package Departamentos;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
 public class GuiMenuSistema extends JFrame {
     private Container contentPane;
-    private JPanel painelInicial; // Painel inicial que será restaurado
+    private JPanel painelInicial;
     private JMenuBar mnBarra;
-    private JMenu mnArquivo, mnSistemas;
-    private JMenuItem miSair, miGraduacao,miBiblioteca,miRestaurante,miFinancas;
-
-    // Armazena a barra de menu principal para restaurar depois
-    private JMenuBar menuBarPrincipal;
+    private JMenu mnArquivo, mnSistemas, mnGraduacao, mnCadastros, mnConsultas;
+    private JMenuItem miSair, miCadastrarCurso, miCadastrarDisciplina;
 
     public static void main(String[] args) {
         JFrame janela = new GuiMenuSistema();
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // Maximiza a janela para ocupar toda a tela
         janela.setExtendedState(JFrame.MAXIMIZED_BOTH);
         janela.setVisible(true);
     }
+
     public GuiMenuSistema() {
         inicializarComponentes();
         definirEventos();
@@ -29,132 +28,137 @@ public class GuiMenuSistema extends JFrame {
         setBounds(0, 0, 800, 600);
         contentPane = getContentPane();
 
-        // Criando um painel inicial simples
         painelInicial = new JPanel(new BorderLayout());
-        JLabel msgMenuPrincipal = new JLabel("Menu Principal",JLabel.CENTER);
-
-        // Adiciona o JLabel no centro do painel
+        JLabel msgMenuPrincipal = new JLabel("Menu Principal", JLabel.CENTER);
         painelInicial.add(msgMenuPrincipal, BorderLayout.CENTER);
-        // Adiciona o painel inicial no centro do contentPane
         contentPane.add(painelInicial, BorderLayout.CENTER);
-        //Inicializa os menus e atalhos de teclado
+
         mnBarra = new JMenuBar();
         mnArquivo = new JMenu("Arquivo");
-        mnArquivo.setMnemonic ('A') ;
+        mnArquivo.setMnemonic('A');
         mnSistemas = new JMenu("Sistemas");
         mnSistemas.setMnemonic('S');
-        //Inicializa os Itens de Menus
+        mnGraduacao = new JMenu("Graduação");
+        mnGraduacao.setMnemonic('G');
+
         miSair = new JMenuItem("Sair");
-        miSair.setAccelerator (KeyStroke.getKeyStroke(
-                KeyEvent.VK_S, ActionEvent.ALT_MASK));
-        miGraduacao = new JMenuItem("Graduação");
-        miGraduacao.setMnemonic('G');
-        miBiblioteca = new JMenuItem("Biblioteca");
-        miBiblioteca.setMnemonic('B');
-        miRestaurante = new JMenuItem("Restaurante");
-        miRestaurante.setMnemonic('R');
-        miFinancas = new JMenuItem("Financas");
-        miFinancas.setMnemonic('F');
-        //Adiciona componentes ao Frame
-        //Vincula os menus aos itens de menu
+        miSair.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
+
         mnArquivo.add(miSair);
-        mnSistemas.add(miGraduacao);
-        mnSistemas.add(miBiblioteca);
-        mnSistemas.add(miRestaurante);
-        mnSistemas.add(miFinancas);
-        mnBarra.add (mnArquivo);
+
+        // Adicionando submenus Cadastros e Consultas dentro de Graduação
+        mnCadastros = new JMenu("Cadastros");
+        mnConsultas = new JMenu("Consultas");
+
+        miCadastrarCurso = new JMenuItem("Cadastro de Cursos");
+        miCadastrarDisciplina = new JMenuItem("Cadastro de Disciplinas");
+
+        mnCadastros.add(miCadastrarCurso);
+        mnCadastros.add(miCadastrarDisciplina);
+
+        mnGraduacao.add(mnCadastros);
+        mnGraduacao.add(mnConsultas); // Consultas sem ações por enquanto
+
+        mnSistemas.add(mnGraduacao);
+        mnSistemas.add(new JMenuItem("Biblioteca"));
+        mnSistemas.add(new JMenuItem("Restaurante"));
+        mnSistemas.add(new JMenuItem("Finanças"));
+
+        mnBarra.add(mnArquivo);
         mnBarra.add(mnSistemas);
 
-        // Armazena a barra de menu principal para restaurar depois
-        menuBarPrincipal = mnBarra;
-        setJMenuBar (mnBarra);
-
+        setJMenuBar(mnBarra);
     }
+
     private void definirEventos() {
-        miSair.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-        miGraduacao.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Abre Sistema de Graduacao");
-                //Prepara o painel adicionar novos componentes
-                contentPane.removeAll();
-                //Cria nova instância de GuiMenuGraduação
-                // Passa o contentPane e o menu principal para trocar o menu;
-                GuiMenuGraduacao guiMenuGraduacao = new GuiMenuGraduacao(contentPane, menuBarPrincipal);
-                contentPane.add(guiMenuGraduacao);
-                //Atualiza a barra de menu
-                setJMenuBar(guiMenuGraduacao.getMenuBar());
+        miSair.addActionListener(e -> System.exit(0));
 
-                //Faz a revalidação e repaint da janela
-                contentPane.revalidate();
-                contentPane.repaint();
-                revalidate();  // Revalida o JFrame inteiro
-                repaint();     // Redesenha o JFrame inteiro
-            }
+        miCadastrarCurso.addActionListener(e -> {
+            contentPane.removeAll();
+            contentPane.add(new GuiCadastroCurso());
+            contentPane.revalidate();
+            contentPane.repaint();
         });
 
-        miBiblioteca.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Abre Sistema de Biblioteca");
-                //Prepara o painel adicionar novos componentes
-                contentPane.removeAll();
-                //Cria nova instância de GuiMenuGraduação
-                // Passa o contentPane e o menu principal para trocar o menu;
-                GuiMenuBiblioteca guiMenuBiblioteca = new GuiMenuBiblioteca(contentPane, menuBarPrincipal);
-                contentPane.add(guiMenuBiblioteca);
-                //Atualiza a barra de menu
-                setJMenuBar(guiMenuBiblioteca.getMenuBar());
-
-                //Faz a revalidação e repaint da janela
-                contentPane.revalidate();
-                contentPane.repaint();
-                revalidate();  // Revalida o JFrame inteiro
-                repaint();     // Redesenha o JFrame inteiro
-            }
-
+        miCadastrarDisciplina.addActionListener(e -> {
+            contentPane.removeAll();
+            contentPane.add(new GuiCadastroDisciplina());
+            contentPane.revalidate();
+            contentPane.repaint();
         });
+    }
+}
 
-        miRestaurante.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Abre Sistema de Restaurante");
-                 //Prepara o painel adicionar novos componentes
-                 contentPane.removeAll();
-                 //Cria nova instância de GuiMenuGraduação
-                 // Passa o contentPane e o menu principal para trocar o menu;
-                 GuiMenuRestaurante guiMenuRestaurante = new GuiMenuRestaurante(contentPane, menuBarPrincipal);
-                 contentPane.add(guiMenuRestaurante);
-                 //Atualiza a barra de menu
-                 setJMenuBar(guiMenuRestaurante.getMenuBar());
- 
-                 //Faz a revalidação e repaint da janela
-                 contentPane.revalidate();
-                 contentPane.repaint();
-                 revalidate();  // Revalida o JFrame inteiro
-                 repaint();     // Redesenha o JFrame inteiro
-            }
-        });
-        
-        miFinancas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Abre Sistema de Finanças");
-                //Prepara o painel adicionar novos componentes
-                contentPane.removeAll();
-                //Cria nova instância de GuiMenuGraduação
-                // Passa o contentPane e o menu principal para trocar o menu;
-                GuiMenuTesouraria guiMenuTesouraria = new GuiMenuTesouraria(contentPane, menuBarPrincipal);
-                contentPane.add(guiMenuTesouraria);
-                //Atualiza a barra de menu
-                setJMenuBar(guiMenuTesouraria.getMenuBar());
+// Tela de Cadastro de Curso
+class GuiCadastroCurso extends JPanel {
+    public GuiCadastroCurso() {
+        setLayout(new GridLayout(8, 2));
 
-                //Faz a revalidação e repaint da janela
-                contentPane.revalidate();
-                contentPane.repaint();
-                revalidate();  // Revalida o JFrame inteiro
-                repaint();     // Redesenha o JFrame inteiro
-            }
-        });
+        add(new JLabel("Código do Curso:"));
+        add(new JTextField());
+
+        add(new JLabel("Nome do Curso:"));
+        add(new JTextField());
+
+        add(new JLabel("Carga Horária:"));
+        add(new JTextField());
+
+        add(new JLabel("Modalidade (EAD/Presencial):"));
+        JComboBox<String> modalidade = new JComboBox<>(new String[]{"EAD", "Presencial"});
+        add(modalidade);
+
+        add(new JLabel("Tipo de Curso:"));
+        JComboBox<String> tipoCurso = new JComboBox<>(new String[]{"Graduação", "Licenciatura", "Bacharelado"});
+        add(tipoCurso);
+
+        add(new JLabel("Código do Departamento:"));
+        add(new JTextField());
+
+        // Adicionando os botões
+        JPanel panelBotoes = new JPanel(new FlowLayout());
+        panelBotoes.add(new JButton("Gravar"));
+        panelBotoes.add(new JButton("Alterar"));
+        panelBotoes.add(new JButton("Excluir"));
+        panelBotoes.add(new JButton("Localizar"));
+        panelBotoes.add(new JButton("Novo"));
+        panelBotoes.add(new JButton("Cancelar"));
+        panelBotoes.add(new JButton("Fechar"));
+
+        add(panelBotoes);
+    }
+}
+
+// Tela de Cadastro de Disciplinas
+class GuiCadastroDisciplina extends JPanel {
+    public GuiCadastroDisciplina() {
+        setLayout(new GridLayout(6, 2));
+
+        add(new JLabel("Código:"));
+        add(new JTextField());
+
+        add(new JLabel("Curso:"));
+        JComboBox<String> cursos = new JComboBox<>(new String[]{"Curso 1", "Curso 2"}); // Exemplo de cursos
+        add(cursos);
+
+        add(new JLabel("Nome:"));
+        add(new JTextField());
+
+        add(new JLabel("Carga Horária:"));
+        add(new JTextField());
+
+        add(new JLabel("Área/Matéria:"));
+        add(new JTextField());
+
+        // Adicionando os botões
+        JPanel panelBotoes = new JPanel(new FlowLayout());
+        panelBotoes.add(new JButton("Gravar"));
+        panelBotoes.add(new JButton("Alterar"));
+        panelBotoes.add(new JButton("Excluir"));
+        panelBotoes.add(new JButton("Localizar"));
+        panelBotoes.add(new JButton("Novo"));
+        panelBotoes.add(new JButton("Cancelar"));
+        panelBotoes.add(new JButton("Fechar"));
+
+        add(panelBotoes);
     }
 }
